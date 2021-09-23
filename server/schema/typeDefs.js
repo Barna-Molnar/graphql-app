@@ -38,7 +38,7 @@ const typeDefs = gql`
         name: String!
         username: String!
         age: Int!
-        nationality: Nationality = HUNGARY
+        nationality: Nationality 
     }
     input UpdateUsernameInput {
         id:ID!
