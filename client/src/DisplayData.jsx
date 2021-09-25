@@ -12,6 +12,17 @@ const QUERY_ALL_USERS = gql`
     }
   }
 `;
+const QUERY_USER_BYNAME = gql`
+  query UserByname($name: String!) {
+    userByName(name: $name) {
+      name
+      id
+      age
+      username
+      nationality
+    }
+  }
+`;
 const QUERY_ALL_MOVIES = gql`
   query getAllmovies {
     movies {
@@ -59,6 +70,11 @@ function DisplayData() {
   //Fetch movie on Click
   const [fetchMovie, { data: movieSearchedData, error: movieError }] =
     useLazyQuery(GET_MOVIE_BY_NAME);
+
+  // Fetch User on Click
+  const [fetchUserByName, { data: userData, error: userError }] =
+    useLazyQuery(QUERY_USER_BYNAME);
+  const [searchedUser, setSearchedUser] = useState('');
 
   const [createUser] = useMutation(CREATE_USER_MUTATION);
   const [deleteUser] = useMutation(DELETE_USER_MUTATION);
@@ -155,7 +171,7 @@ function DisplayData() {
             </div>
           );
         })}
-      <h1>Fetch on click</h1>
+      <h1>Fetch Movie on click</h1>
       <div>
         <input
           type="text"
@@ -181,6 +197,27 @@ function DisplayData() {
           )}
           {movieError && <h1> There was an error fetching the data</h1>}
         </div>
+      </div>
+      <h1>Fetch User on Click</h1>
+      <div>
+        <input
+          type="text"
+          placeholder="Type a name"
+          onChange={(event) => {
+            setSearchedUser(event.target.value);
+          }}
+        />
+        <button
+          onClick={() => fetchUserByName({ variables: { name: searchedUser } })}
+        >
+          Fetch Data
+        </button>
+        {userData && (
+          <div>
+            <h2>UserName: {userData.userByName.name}</h2>
+            <h2>Nationality of User: {userData.userByName.nationality}</h2>
+          </div>
+        )}
       </div>
     </div>
   );

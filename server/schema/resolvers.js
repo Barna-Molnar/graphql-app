@@ -3,7 +3,8 @@ const _ = require("lodash")
 
 const resolvers = {
     Query: {
-        users: () => {
+        users: (parent, args, context, info) => {
+            console.log(context)
             return UserList
         },
         user: (parent, args) => {
@@ -18,11 +19,7 @@ const resolvers = {
             const user = _.find(UserList, (user) => user.name.toLocaleLowerCase() === name)
 
             return user
-        }
-
-
-
-        ,
+        },
         movies: () => {
             return MovieList
         },
