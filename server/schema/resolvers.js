@@ -13,6 +13,16 @@ const resolvers = {
 
             return user
         },
+        userByName: (parent, args) => {
+            const name = args.name.toLowerCase()
+            const user = _.find(UserList, (user) => user.name.toLocaleLowerCase() === name)
+
+            return user
+        }
+
+
+
+        ,
         movies: () => {
             return MovieList
         },
