@@ -28,7 +28,7 @@ const typeDefs = gql`
     
 
     type Query {
-        users: [User!]!
+        users: UsersResult
         user(id: ID!): User!
         userByName(name: String!): User!
         movies: [Movie!]!
@@ -60,6 +60,13 @@ const typeDefs = gql`
         GERMANY
         CHILE
     }
+    type UsersSuccesfulResult {
+        users: [User!]!
+    }
+    type UsersErrorResult {
+        message: String!
+    }
+    union UsersResult = UsersSuccesfulResult | UsersErrorResult 
 `; // close tick
 
 module.exports = { typeDefs };

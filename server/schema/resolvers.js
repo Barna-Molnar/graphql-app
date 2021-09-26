@@ -4,8 +4,10 @@ const _ = require("lodash")
 const resolvers = {
     Query: {
         users: (parent, args, context, info) => {
-            console.log(context)
-            return UserList
+            if (UserList) return { users: UserList }
+
+            return { message: 'Yo, there was an error ' }
+
         },
         user: (parent, args) => {
 
@@ -63,7 +65,20 @@ const resolvers = {
             _.remove(UserList, (user) => user.id === Number(id))
             return null
         }
+    },  // Mutation closer
+
+    UsersResult: {
+        __resolveType(obj) {
+            if (obj.users) {
+                return 'UsersSuccesfulResult'
+            }
+            if (obj.message) {
+                return 'UsersErrorResult'
+            }
+            return null
+        }
     }
+
 
 
 
